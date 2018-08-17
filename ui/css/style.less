@@ -1,0 +1,164 @@
+
+/***************************   yeti style fixer ***********************/
+table {
+    font-size: inherit;
+}
+
+.btn:focus,
+.btn.active:focus {
+outline-style: none !important;
+}
+/***************************  iu-ize ***********************/
+@font-face { 
+    font-family: 'BentonSansRegular'; 
+    src: url("https://fonts.iu.edu/fonts/benton-sans-regular.eot"); 
+    src: url("https://fonts.iu.edu/fonts/benton-sans-regular.eot?#iefix") format("embedded-opentype"), url("https://fonts.iu.edu/fonts/benton-sans-regular.woff") format("woff"), url("https://fonts.iu.edu/fonts/benton-sans-regular.ttf") format("truetype"), url("https://fonts.iu.edu/fonts/benton-sans-regular.svg#BentonSansRegular") format("svg"); 
+    font-style: normal; 
+    font-weight: normal; 
+}
+@font-face { 
+    font-family: 'BentonSansCondRegular'; 
+    src: url("https://fonts.iu.edu/fonts/benton-sans-cond-regular.eot"); 
+    src: url("https://fonts.iu.edu/fonts/benton-sans-cond-regular.eot?#iefix") format("embedded-opentype"), url("https://fonts.iu.edu/fonts/benton-sans-cond-regular.woff") format("woff"), url("https://fonts.iu.edu/fonts/benton-sans-cond-regular.ttf") format("truetype"), url("https://fonts.iu.edu/fonts/benton-sans-cond-regular.svg#BentonSansCondRegular") format("svg"); 
+    font-style: normal; 
+    font-weight: normal; 
+}
+@font-face { 
+    font-family: 'BentonSansCondBold'; 
+    src: url("https://fonts.iu.edu/fonts/benton-sans-cond-bold.eot"); 
+    src: url("https://fonts.iu.edu/fonts/benton-sans-cond-bold.eot?#iefix") format("embedded-opentype"), url("https://fonts.iu.edu/fonts/benton-sans-cond-bold.woff") format("woff"), url("https://fonts.iu.edu/fonts/benton-sans-cond-bold.ttf") format("truetype"), url("https://fonts.iu.edu/fonts/benton-sans-cond-bold.svg#BentonSansCondBold") format("svg"); 
+    font-style: normal; 
+    font-weight: normal; 
+}
+@font-face { 
+    font-family: 'GeorgiaProItalic'; 
+    src: url("https://fonts.iu.edu/fonts/georgia-pro-italic.eot"); 
+    src: url("https://fonts.iu.edu/fonts/georgia-pro-italic.eot?#iefix") format("embedded-opentype"), url("https://fonts.iu.edu/fonts/georgia-pro-italic.woff") format("woff"), url("https://fonts.iu.edu/fonts/georgia-pro-italic.ttf") format("truetype"), url("https://fonts.iu.edu/fonts/georgia-pro-italic.svg#GeorgiaProItalic") format("svg"); 
+    font-style: normal; 
+    font-weight: normal; 
+}
+
+body {
+    font-family: "BentonSansRegular", "Arial Narrow", Arial, Helvetica, sans-serif; 
+    font-size: 16px;
+    line-height: 22.8px;
+}
+
+.tagline {
+/*font-weight: bold;*/
+}
+#footer-v1 {
+font-family: inherit !important;
+}
+
+h1 {
+    font-size: 2.625em;
+    font-weight: 600;
+}
+h2 {
+    font-weight: 600;
+}
+h3 {
+    font-weight: 600;
+}
+
+/**********************************************************************/
+
+.page-quiz {
+    button {
+        transition: all 0.2s linear;
+    }
+    .question {
+        padding-bottom: 15px;
+        clear: both;
+        margin-bottom: 5px;
+        padding-left: 5px;
+        border-bottom: 1px solid #eee;
+    }
+    .question:last-child {
+        border-bottom: none;
+    }
+    span.more-info {
+        margin-left: 10px;
+        opacity: 0.9;
+        transition: opacity 0.1s linear;
+        /*text-decoration: underline;*/
+        cursor: pointer;
+        font-weight: bold;
+    }
+    div.hint {
+        color: #333;
+        padding: 10px;
+        border-left: 4px solid #666;
+    }
+    .question:hover {
+        /*
+        p.q {
+            color: #7a1705;
+        }
+        span.more-info {
+            opacity: 0.7;
+        }
+        */
+    }
+
+    .quiz-btn-group {
+        margin-left: 5px;
+    }
+
+    .quiz-btn {
+        width: 60px;
+    }
+    .quiz-btn:hover {
+        background-color: #999;
+    }
+
+    .quiz-btn.active,
+    .quiz-btn.active:hover {
+        color: white;
+        background-color: #7a1705;
+    }
+    .submit {
+        background-color: #1f8242; 
+        color: white; 
+        width: 123px;
+    }
+    ol {
+        padding-left: 25px;
+    }
+}
+
+.page-result {
+    h4 {         
+        font-weight: bold;
+        margin-bottom: 3px;
+        &.more-info {
+            font-size: 17px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+    }
+    .question {
+        color: #444;
+    }
+    .progress {
+        .label {
+            position: relative;
+            top: 2px;
+            font-size: 14px;
+            text-shadow:0px 0px 3px #000;
+        }
+    }
+
+    .result-question {
+        margin-top: 10px;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+    }
+
+    .result-desc {
+        margin-left: 5px;
+        border-left: 4px solid #7a1705;
+        padding-left: 10px;
+    }
+}

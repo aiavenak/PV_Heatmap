@@ -1,0 +1,38 @@
+//
+   Created by youngmd on 5/16/18.
+
+doctype html
+html(ng-app="myapp" ng-cloak="" ng-controller="HeadController")
+    base(href='/')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible' content='IE=edge')
+        meta(name='viewport' content='initial-scale=1, width=device-width')
+        title(ng-bind='title')
+        link(rel='stylesheet' href='public/bower_components/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet' href=getVersionedPath('/css/bootstrap.yeti.css'))
+        link(rel='stylesheet' href=getVersionedPath('/css/style.css'))
+        link(rel='stylesheet' href='public/bower_components/angularjs-toaster/toaster.min.css')
+        link(rel="stylesheet" href="public/bower_components/font-awesome/css/font-awesome.min.css")
+        link(rel='stylesheet' href='public/bower_components/angular/angular-csp.css')
+    body
+        ng-include(src="'t/header.html'")
+        .container.main
+            toaster-container(toaster-options="{'position-class': 'toast-bottom-right'}")
+            // <div class="page-header">
+            // <h2>{{title}} <small>{{smalltitle}}</small></h2>
+            // </div>
+            ng-view()
+        ng-include(src="'t/footer.html'")
+        script(src='public/solarmap_data.js')
+        script(src='public/bower_components/jquery/dist/jquery.min.js')
+        // bootstrap requires jquery
+        script(src='public/bower_components/angular/angular.min.js')
+        script(src='public/bower_components/angular-route/angular-route.min.js')
+        script(src='public/bower_components/angular-animate/angular-animate.min.js')
+        script(src='public/bower_components/angular-jwt/dist/angular-jwt.min.js')
+        script(src='public/bower_components/bootstrap/dist/js/bootstrap.min.js')
+        script(src='public/bower_components/angularjs-toaster/toaster.min.js')
+        script(src=getVersionedPath('./config.js'))
+        script(src=getVersionedPath('/js/app.js'))
+        script(src=getVersionedPath('/js/controllers.js'))

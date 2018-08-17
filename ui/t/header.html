@@ -1,0 +1,29 @@
+<header class="institution-header" id="branding-bar-v1" itemscope="itemscope" itemtype="http://schema.org/CollegeOrUniversity">
+    <div class="bar">
+        <div class="container">
+            <div class="unit whole">
+                <h1 class="campus">
+                    <a title="Indiana University">
+                        <img src="images/trident-tab.gif" height="73" width="64" alt=" ">
+                        <span class="show-on-desktop" itemprop="name sourceOrganization provider">Indiana University</span>
+                        <span class="show-on-tablet" itemprop="name sourceOrganization provider">Indiana University</span>
+                        <span class="show-on-mobile" itemprop="name sourceOrganization provider">Indiana University</span>
+                    </a>
+                </h1>
+                <a class="btn btn-info btn-sm btn-contact" onclick="$('#contact2').modal();">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                </a>
+                <a class="btn btn-success btn-sm btn-access" ng-if="username === null" ng-click="login()">
+                    <span class="glyphicon glyphicon-log-in"></span> <span class=""> Log in</span>
+                </a>
+                <a class="btn btn-warning btn-sm btn-access" ng-if="username !== null" ng-click="logout()">
+                    <span class="glyphicon glyphicon-log-out"></span> <span class=""> Log out</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="bar subheader">
+        <h3 class="site-title">SCAffold <small>SCA Framework <span class="text-warning">internal</span></small></h3>
+        <div class="pull-right text-right" ng-if="username"><h6>Welcome <b>{{username}}</b><span ng-if="role === 'admin'"> (admin)</span></h6></div>
+    </div>
+</header>

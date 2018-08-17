@@ -1,0 +1,223 @@
+<script>
+
+    var map;
+    var bloomington   = {lat: 39.1622, lng: -86.5252};
+    var evansville    = {lat: 37.9913, lng: -87.5386};
+    var indianapolis  = {lat: 39.7839, lng: -86.1575};
+    var southbend     = {lat: 41.6760, lng: -86.2512};
+  
+    function initMap() {
+      var pv_icon = '/mm_20_blue.png';
+      var wh_icon = '/mm_20_red.png';
+      var ah_icon = '/mm_20_yellow.png';
+      var pv_af_icon = '/mm_20_green.png';
+      var infowindow = null;
+  
+      /* Reference URLs: https://developers.google.com/maps/documentation/javascript/controls */
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: bloomington,
+        zoom: 12,
+        //    disableDefaultUI: true,
+        zoomControl: true,
+        scaleControl: true,
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+          position: google.maps.ControlPosition.TOP_RIGHT,
+          mapTypeIds: [
+            google.maps.MapTypeId.ROADMAP,
+            google.maps.MapTypeId.SATELLITE, 
+            google.maps.MapTypeId.HYBRID,
+            google.maps.MapTypeId.TERRAIN
+          ]
+        }
+      });
+  
+     pv_items.forEach(function(pv_item) {
+        pv_item.marker = new google.maps.Marker({
+          position: {
+            lat: parseFloat(pv_item.lat),
+            lng: parseFloat(pv_item.lon)
+          },
+          content: pv_item.utility, 
+          map: map,
+          icon: pv_icon
+          });  // Use map : null to not show by default, in conjunction with checked="unchecked" or not specifying attribute above 
+          pv_item.marker.addListener('click', function() {
+            if (infowindow) {
+              infowindow.close();
+            }
+            var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+ '</div>'+
+            '<h2 id="firstHeading" class="firstHeading">PV System at ' + pv_item.address; 
+            contentString += '</h2>' + '<div id="bodyContent">';
+            contentString += (pv_item.capacity_watt != '')?'System Size: ' + pv_item.capacity_watt + ' Watt DC ':'';
+            contentString += (pv_item.connection != '')?' (' + pv_item.connection + ')<br />':'<br />';
+            contentString += (pv_item.utility != '')?'Utility: ' + pv_item.utility + '<br />':'';
+            contentString += (pv_item.installer != '')?'Installer: ' + pv_item.installer + '<br />':'';
+            contentString += (pv_item.county != '')?'County: ' + pv_item.county + '<br />':'';
+            contentString += (pv_item.year != '')?'Installed in: ' + pv_item.year + '<br />':'';
+            contentString += (pv_item.comment != '')?'Additional Comments:' + pv_item.comment + '<br />':'';
+            contentString += '</div>'+'</div>';
+  
+            infowindow = new google.maps.InfoWindow({
+              content: contentString,
+              maxWidth: 300
+            });
+            infowindow.open(map, pv_item.marker); 
+          });
+      });
+  
+     wh_items.forEach(function(wh_item) {
+        wh_item.marker = new google.maps.Marker({
+           position: {
+             lat: parseFloat(wh_item.lat),
+             lng: parseFloat(wh_item.lon)
+           },
+           /* title: wh_item.utility, */
+           map: map,
+           icon: wh_icon
+         });
+  
+        wh_item.marker.addListener('click', function() {
+          if (infowindow) {
+             infowindow.close();
+          }
+          var contentString = '<div id="content">'+
+          '<div id="siteNotice">'+ '</div>'+
+          '<h2 id="firstHeading" class="firstHeading">Solar Water Heater at ' + wh_item.address; 
+          contentString += '</h2>' + '<div id="bodyContent">';
+          contentString += (wh_item.capacity_watt != '')?'System Size: ' + wh_item.capacity_watt + ' Watt DC':'';
+          contentString += (wh_item.capacity_btu != '')?' (' + wh_item.capacity_btu + ' BTU)<br />':'';
+          contentString += (wh_item.installer != '')?'Installer: ' + wh_item.installer + '<br />':'';
+          contentString += (pv_item.county != '')?'County: ' + pv_item.county + '<br />':'';
+          contentString += (wh_item.year != '')?'Installed in: ' + wh_item.year + '<br />':'';
+          contentString += (wh_item.comment != '')?'Additional Comments:' + wh_item.comment + '<br />':'';
+          contentString += '</div>'+'</div>';
+          infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 300
+          });
+          infowindow.open(map, wh_item.marker); 
+        });
+      });
+  
+      ah_items.forEach(function(ah_item) {
+        ah_item.marker = new google.maps.Marker({
+           position: {
+             lat: parseFloat(ah_item.lat),
+             lng: parseFloat(ah_item.lon)
+           },
+           /* title: pv_item.utility, */
+           map: map,
+           icon: ah_icon
+         });
+  
+         ah_item.marker.addListener('click', function() {
+           if (infowindow) {
+              infowindow.close();
+           }
+           var contentString = '<div id="content">'+
+           '<div id="siteNotice">'+ '</div>'+
+           '<h2 id="firstHeading" class="firstHeading">Solar Air Heater at ' + ah_item.address; 
+           contentString += '</h2>' + '<div id="bodyContent">';
+           contentString += (ah_item.capacity_watt != '')?'System Size: ' + ah_item.capacity_watt + ' Watt DC<br />':'<br />';
+           contentString += (ah_item.installer != '')?'Installer: ' + ah_item.installer + '<br />':'';
+           contentString += (pv_item.county != '')?'County: ' + pv_item.county + '<br />':'';
+           contentString += (ah_item.year != '')?'Installed in: ' + ah_item.year + '<br />':'';
+           contentString += (ah_item.comment != '')?'Additional Comments:' + ah_item.comment + '<br />':'';
+           contentString += '</div>'+'</div>';
+           infowindow = new google.maps.InfoWindow({
+             content: contentString,
+             maxWidth: 300
+           });
+           infowindow.open(map, ah_item.marker); 
+        });
+      });
+  
+     pv_af_items.forEach(function(pv_af_item) {
+        pv_af_item.marker = new google.maps.Marker({
+          position: {
+            lat: parseFloat(pv_af_item.lat),
+            lng: parseFloat(pv_af_item.lon)
+          },
+          title: pv_af_item.utility, 
+          map: map,
+          icon: pv_af_icon
+          });  // Use map : null to not show by default, in conjunction with checked="unchecked" or not specifying attribute above 
+         pv_af_item.marker.addListener('click', function() {
+           if (infowindow) {
+              infowindow.close();
+           }
+           var contentString = '<div id="content">'+
+           '<div id="siteNotice">'+ '</div>'+
+           '<h2 id="firstHeading" class="firstHeading">Solar PV Attic Fan at ' + pv_af_item.address; 
+           contentString += '</h2>' + '<div id="bodyContent">';
+           contentString += (pv_af_item.capacity_watt != '')?'System Size: ' + pv_af_item.capacity_watt + ' Watt DC<br />':'<br />';
+           contentString += (pv_af_item.installer != '')?'Installer: ' + pv_af_item.installer + '<br />':'';
+           contentString += (pv_item.county != '')?'County: ' + pv_item.county + '<br />':'';
+           contentString += (pv_af_item.year != '')?'Installed in: ' + pv_af_item.year + '<br />':'';
+           contentString += (pv_af_item.comment != '')?'Additional Comments:' + pv_af_item.comment + '<br />':'';
+           contentString += '</div>'+'</div>';
+           infowindow = new google.maps.InfoWindow({
+             content: contentString,
+             maxWidth: 300
+          });
+          infowindow.open(map, pv_af_item.marker); 
+        });
+      });
+  
+    } //end of initmap
+  
+    /* Consider the following some other time: 
+     (1) Geo location 
+     (2) DONE! Centering around Bloomington, Indy, Evansville, etc. https://developers.google.com/maps/documentation/javascript/examples/control-custom 
+     (3) Heatmaps: https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap 
+    */
+      function updatemapcenter(location) {
+          jQuery("input[name='radio_mapcenter']:checked").each(function() {
+             map.panTo(new google.maps.LatLng(location));
+          });
+      }
+      function updatemap() {
+          //gather query
+          var years = [];
+          jQuery("input[name='cb_year']:checked").each(function() {
+              years.push(this.value);
+          });
+          var owners = [];
+          jQuery("input[name='cb_ownertype']:checked").each(function() {
+              owners.push(this.value);
+          });
+          var systypes = [];
+          jQuery("input[name='cb_systype']:checked").each(function() {
+              systypes.push(this.value);
+          });
+          pv_items.forEach(function(item) { item.type = "PV"; });
+          ah_items.forEach(function(item) { item.type = "Thermal_Air"; });
+          wh_items.forEach(function(item) { item.type = "Thermal_Water"; });
+          pv_af_items.forEach(function(item) { item.type = "PV_Fan"; });
+  
+          var county = jQuery("input[name='tb_county']").val().toLowerCase();
+          var installer = jQuery("input[name='tb_installer']").val().toLowerCase();
+          var utility = jQuery("input[name='tb_utility']").val().toLowerCase();
+  
+          //now apply the query
+          [pv_items, pv_af_items, ah_items, wh_items].forEach(function(items) {
+              items.forEach(function(item) {
+                  var pmap = item.marker.getMap();
+                  var nmap = map;
+                  if(!~years.indexOf(item.year)) nmap = null;
+                  if(!~owners.indexOf(item.ownertype)) nmap = null;
+                  if(!~systypes.indexOf(item.type)) nmap = null;
+                  if(!~item.county.toLowerCase().indexOf(county)) nmap = null;
+                  if(!~item.installer.toLowerCase().indexOf(installer)) nmap = null;
+                  if ((utility != "") && ((item.utility == null) || (!~item.utility.toLowerCase().indexOf(utility)))) nmap = null; 
+                  if(pmap != nmap) item.marker.setMap(nmap);
+                   
+              });
+          });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTh9P7H-yNJfk8PY85g0vh4-XRXmPj9e0&amp;callback=initMap" async="" defer="defer"></script>
+  

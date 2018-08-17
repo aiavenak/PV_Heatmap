@@ -1,0 +1,128 @@
+<div class="page-home">
+    <ul class="breadcrumb">
+        <li class="active"><a href="index">home</a></li>
+    </ul>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-title">SCAffold Home <small>PV systems in Indiana</small></h3>
+
+            <blockquote class="blockquote-reverse">
+                <p></p>
+                <small> <cite title="Source Title"></cite></small>
+            </blockquote>
+        </div>
+    </div>
+</div>
+
+<div id="floating-panel">
+    <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+    <button onclick="changeGradient()">Change gradient</button>
+    <!-- <button onclick="changeRadius()">Change radius</button> -->
+    <!-- <button onclick="changeOpacity()">Change opacity</button> -->
+</div>
+  
+
+<div id="map" style="width:100%;height:800px;"></div>
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7MqnmP_XdeCH9-qyYb10OtLg6Laag98o&libraries=visualization&callback=initMap">
+</script>
+
+<script type="text/javascript" src="./public/solarmap_data.js"></script>
+
+<script>
+
+var map, heatmap;
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7,
+    center: {lat: 39.7797, lng: -86.2027},  
+    mapTypeId: 'satellite'
+    });
+
+    heatmap = new google.maps.visualization.HeatmapLayer({
+    data: getPoints().pv,
+    dissipating: true,
+    radius:20,
+    opacity: 0.7,
+    map: map
+    });    
+}
+
+
+function toggleHeatmap() {
+    //heatmap.setMap(heatmap.getMap() ? null : map);
+    heatmap = new google.maps.visualization.HeatmapLayer({
+    data: getPoints().pv,
+    dissipating: true,
+    map: map
+    });
+}
+
+function changeGradient() {
+var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+]
+heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+
+// Heatmap data
+function getPoints() {
+
+    var pv = [];
+    var capacity = [];
+
+    console.log(`pv items in data array is ${pv_items.length}`);
+    
+    // find max capacity 
+    var maxCapacity = Math.max.apply(Math,pv_items.map(function(pv_items){return pv_items.capacity_watt;}));
+    //console.log(`max capacity is ${maxCapacity}` )
+    
+    for(var i = 0; i < pv_items.length; i++ ){
+        var lat = parseFloat(pv_items[i].lat);
+        var lon = parseFloat(pv_items[i].lon);
+        var cap = parseFloat(pv_items[i].capacity_watt);  
+        if(!(isNaN(lat) || isNaN(lon))) {
+            pv.push(new google.maps.LatLng(parseFloat(lat),parseFloat(lon)));  
+            capacity.push({location: new google.maps.LatLng(parseFloat(lat),parseFloat(lon)), weight:cap});
+        }        
+    }
+    return {
+        pv: pv,
+        capacity:capacity,
+    };
+    console.log(`points added to map ${capacity.length}`)    
+};
+ 
+
+// for(var i = 1; i <= 5; i++) {
+//     points.push(new google.maps.LatLng(((randn_gauss()*.1) -.05 + 39.17),((randn_gauss()*.1) - .05 - 86.54)))
+// }
+// function randn_gauss() {
+//     var u = 0, v = 0;
+//     while(u === 0) u = Math.random(); 
+//     while(v === 0) v = Math.random();
+//     return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+// }
+
+</script> 
+
+
+
+
