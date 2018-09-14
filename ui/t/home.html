@@ -1,68 +1,311 @@
-<div class="page-home">
-    <ul class="breadcrumb">
-        <li class="active"><a href="index">home</a></li>
-    </ul>
-    <div class="row">
-        <div class="col-xs-12">
-            <h3 class="page-title">SCAffold Home <small>PV systems in Indiana</small></h3>
 
-            <blockquote class="blockquote-reverse">
-                <p></p>
-                <small> <cite title="Source Title"></cite></small>
-            </blockquote>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 100%;
+    }
+    #control_area {
+      position: relative;
+      height: 20%;
+    }
+    #map_area {
+      position: relative;
+      height: 80%;
+    }
+    #layer_control {
+      position: absolute;
+      top: 10px;
+      z-index: 10;
+      background-color: white;
+      margin: 10px;
+      padding: 10px;
+    }
+    .map-query h3 {
+      margin-top: 0px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta charset="UTF-8" />
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://www.sirensolar.org/xmlrpc.php">
+<title>Solar Map &#8211; SIREN: Solar Indiana Renewable Energy Network</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Total WordPress Theme 3.6.0" />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="SIREN: Solar Indiana Renewable Energy Network &raquo; Feed" href="https://www.sirensolar.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="SIREN: Solar Indiana Renewable Energy Network &raquo; Comments Feed" href="https://www.sirensolar.org/comments/feed/" />
+<link rel="alternate" type="text/calendar" title="SIREN: Solar Indiana Renewable Energy Network &raquo; iCal Feed" href="https://www.sirensolar.org/events/?ical=1" />
+<link rel='stylesheet' id='wpapp-styles-css'  href='https://www.sirensolar.org/wp-content/plugins/wordpress-easy-paypal-payment-or-donation-accept-plugin/wpapp-styles.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='js_composer_front-css'  href='https://www.sirensolar.org/wp-content/plugins/js_composer/assets/css/js_composer.min.css?ver=4.12.1' type='text/css' media='all' />
+<link rel='stylesheet' id='q-a-focus-plus-css'  href='https://www.sirensolar.org/wp-content/plugins/q-and-a-focus-plus-faq/css/q-a-focus-plus.min.css?ver=1.3.9.7' type='text/css' media='screen' />
+<link rel='stylesheet' id='toc-screen-css'  href='https://www.sirensolar.org/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=1509' type='text/css' media='all' />
+<link rel='stylesheet' id='wpex-style-css'  href='https://www.sirensolar.org/wp-content/themes/Total/style.css?ver=3.6.0' type='text/css' media='all' />
+<link rel='stylesheet' id='wpex-google-font-open-sans-css'  href='//fonts.googleapis.com/css?family=Open+Sans%3A100%2C200%2C300%2C400%2C500%2C600%2C700%2C800%2C900100italic%2C200italic%2C300italic%2C400italic%2C500italic%2C600italic%2C700italic%2C800italic%2C900italic&#038;subset=latin&#038;ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='wpex-visual-composer-css'  href='https://www.sirensolar.org/wp-content/themes/Total/assets/css/wpex-visual-composer.css?ver=3.6.0' type='text/css' media='all' />
+<link rel='stylesheet' id='wpex-visual-composer-extend-css'  href='https://www.sirensolar.org/wp-content/themes/Total/assets/css/wpex-visual-composer-extend.css?ver=3.6.0' type='text/css' media='all' />
+<link rel='stylesheet' id='wpex-tribe-events-css'  href='https://www.sirensolar.org/wp-content/themes/Total/assets/css/wpex-tribe-events.css?ver=4.9.8' type='text/css' media='all' />
+
+<link rel='stylesheet' id='wpex-responsive-css'  href='https://www.sirensolar.org/wp-content/themes/Total/assets/css/wpex-responsive.css?ver=3.6.0' type='text/css' media='all' />
+<link rel='stylesheet' id='wpex-neat-skin-css'  href='https://www.sirensolar.org/wp-content/themes/Total/skins/classes/neat/css/neat-style.css?ver=1.0' type='text/css' media='all' />
+<link rel='https://api.w.org/' href='https://www.sirensolar.org/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.sirensolar.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.sirensolar.org/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.9.8" />
+<link rel="canonical" href="https://www.sirensolar.org/solar-map/" />
+<link rel='shortlink' href='https://www.sirensolar.org/?p=1945' />
+<link rel="alternate" type="application/json+oembed" href="https://www.sirensolar.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.sirensolar.org%2Fsolar-map%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.sirensolar.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.sirensolar.org%2Fsolar-map%2F&#038;format=xml" />
+<noscript><link rel="stylesheet" type="text/css" href="https://www.sirensolar.org/wp-content/plugins/q-and-a-focus-plus-faq/css/q-a-focus-plus-noscript.min.css?ver=1.3.9.7" /></noscript><!-- Q & A Focus Plus-->
+<meta name="tec-api-version" content="v1"><meta name="tec-api-origin" content="https://www.sirensolar.org"><link rel="https://theeventscalendar.com/" href="https://www.sirensolar.org/wp-json/tribe/events/v1/" />
+<link rel="shortcut icon" href="https://www.sirensolar.org/wp-content/uploads/2015/08/SIREN-Logo-Small-150x1502.ico">
+<link rel="apple-touch-icon-precomposed" href="https://www.sirensolar.org/wp-content/uploads/2015/08/SIREN-Logo-Small-150x1502.ico">
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://www.sirensolar.org/wp-content/uploads/2015/08/SIREN-Logo-Small-150x1502.ico">
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://www.sirensolar.org/wp-content/uploads/2015/08/SIREN-Logo-Small-150x1502.ico">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://www.sirensolar.org/wp-content/uploads/2015/08/SIREN-Logo-Small-150x1502.ico"><meta name="generator" content="Powered by Visual Composer - drag and drop page builder for WordPress."/>
+</head>
+  
+<link rel='stylesheet' id='toc-screen-css'  href='https://www.sirensolar.org/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=1509' type='text/css' media='all' />
+
+<div background-color: #fff;"><br /> 
+    
+    <div id="map_area"><div id="map" style="width: 100%; height: 640px;"></div></div>
+
+       <div class="map-query" style="padding: 10px; background-color: #eee;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60%">
+                        <h3>Center map around: </h3>&nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(bloomington)" value="bloomington"> Bloomington </input> &nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(evansville)" value="evansville"> Evansville </input> 
+    &nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(indianapolis)" value="indianapolis"> Indianapolis </input>  &nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(southbend)" value="southbend"> South Bend </input>
+    &nbsp; &nbsp;
+                    </td>
+                    <td style="width: 40%">
+                        <h3>Filter by county: </h3>&nbsp; &nbsp;
+                        <input type="text" name="tb_county" style="width: 90%;" onkeyup="updatemap()" value=""></input><br/>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%;">
+                <tr><td><br/></td></tr>
+                <tr>
+                    <td style="width: 20%">
+                        <h3>System Type</h3>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="PV"><img src="http://labs.google.com/ridefinder/images/mm_20_blue.png"> PV</input><br>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="Thermal_Water"><img src="http://labs.google.com/ridefinder/images/mm_20_red.png"> Water Heater</input><br>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="Thermal_Air"><img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png"> Air Heater</input><br>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="PV_Fan"><img src="http://labs.google.com/ridefinder/images/mm_20_green.png"> PV Attic Fan</input><br>
+                    </td>
+                    <td style="width: 20%">
+                        <h3>Owner</h3>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Residential"> Residential </input>&nbsp;<br>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Commercial"> Commercial </input>&nbsp;<br>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Institutional"> Institutional </input>&nbsp;<br>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Local_Gov"> Local Government </input>&nbsp;<br>
+                    </td>
+                    <td style="width: 30%; padding: 6px">
+                        <h3>Installer</h3>
+                        <input type="text" name="tb_installer" style="width: 90%;" onkeyup="updatemap()" value=""></input><br/>
+                        Type a contractor&#8217;s business name or part of it to filter the map by contractor. <a href="/contractors" target="_new">Click here for list of all contractors</a>
+                    </td>
+                    <td style="width: 30%; padding: 6px">
+                        <h3>Utility</h3>
+                        <input type="text" name="tb_utility" style="width: 90%;" onkeyup="updatemap()" value=""></input><br/>
+                        Type a utility company&#8217;s name or part of it to filter the map by utility.
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%;">
+                <tr><td><h3> </h3></td></tr>
+                <tr>
+                    <td style="width: 100%">
+                        <strong>Installed Year: </strong> &nbsp; &nbsp;
+                        <input type="checkbox" name="cb_year" checked="checked" onclick="updatemap()" value="2008"> 2008 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name="cb_year" checked="checked" onclick="updatemap()" value="2009"> 2009 </input> 
+    &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2010"> 2010 </input>  &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2011"> 2011 </input>
+    &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2012"> 2012 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2013"> 2013 </input>
+    &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2014"> 2014 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2015"> 2015 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2016"> 2016 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2017"> 2017 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2018"> 2018 </input> &nbsp; &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+            <table style="width: 100%;">                
+                <tr>
+                    <td ><h3>Show Heatmap</h3></td>
+                </tr>
+            </table>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60%; padding: 6px">
+                        <strong>Show heatmap based on: </strong>
+                    </td>
+                    <td style="width: 40%">
+                        <strong> Select color gradient:  </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 60%; padding: 6px">
+                        <input type="radio" name='radio_heatmap' onclick="switchHeatmap('num_pv')" value="num_pv" style="margin-left: 15px;" checked="checked"> Number of PV systems per unit area            
+                        <input type="radio" name='radio_heatmap' onclick="switchHeatmap('capacity')" value="capacity" style="margin-left: 15px;"> System Capacity (kW)              
+                    </td>
+                    <td style="width: 40%">
+                        <input type="radio" name='radio_gradient' onclick="switchGradient('hot')" value="hot" style="margin-left: 15px;" checked="checked"> Hot Colormap 
+                        <input type="radio" name='radio_gradient' onclick="switchGradient('cold')" value="cold" style="margin-left: 15px;"> Cold Colormap 
+                    </td>
+                </tr>
+            </table>
+                
+            <table style="width: 100%; padding: 6px;">
+                <tr><td><h3> </h3></td></tr>
+            </table>
+            <table style="width: 100%;">
+                <tr><td><strong>Know a system that is not on the map above?</strong></td></tr>
+                <tr><td>
+                <ul><li><a href="/solar-map/add-pv/" target="_new">Add a new PV system</a>!</li>
+                    <li>To add a new solar water heater, air heater, or solar attic fan, <a href="/contact" target="_new2">please send the relevant information to SIREN</a>. (<em>Online form coming soon</em>.)</li>
+                    <li><a href="/solar-map/data" target="_new_tabular">Click here if you want to view a tabular listing of this data</a>.</li>
+                </ul>
+                </td></tr>
+            </table>
         </div>
     </div>
-</div>
 
-<div id="floating-panel">
-    <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-    <button onclick="changeGradient()">Change gradient</button>
-    <!-- <button onclick="changeRadius()">Change radius</button> -->
-    <!-- <button onclick="changeOpacity()">Change opacity</button> -->
-</div>
-  
-
-<div id="map" style="width:100%;height:800px;"></div>
 
 
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7MqnmP_XdeCH9-qyYb10OtLg6Laag98o&libraries=visualization&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7MqnmP_XdeCH9-qyYb10OtLg6Laag98o&libraries=visualization,geometry&callback=initMap">
 </script>
 
 <script type="text/javascript" src="./public/solarmap_data.js"></script>
 
 <script>
 
-var map, heatmap;
+var map, heatmap_cap, heatmap_pv;
+var bloomington   = {lat: 39.1622, lng: -86.5252};
+var evansville    = {lat: 37.9913, lng: -87.5386};
+var indianapolis  = {lat: 39.7839, lng: -86.1575};
+var southbend     = {lat: 41.6760, lng: -86.2512};
+var zoom = 7;
+var radius = 12;
+var maxCapacity = 0;
+var heatmap_filters = null;
 
 function initMap() {
+
     map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 7,
-    center: {lat: 39.7797, lng: -86.2027},  
-    mapTypeId: 'satellite'
+        zoom: zoom,
+        center: bloomington,  
+        mapTypeId: 'hybrid',//'satellite',
+        zoomControl: true,
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+        },
+        scaleControl: true,
     });
 
-    heatmap = new google.maps.visualization.HeatmapLayer({
-    data: getPoints().pv,
-    dissipating: true,
-    radius:20,
-    opacity: 0.7,
-    map: map
-    });    
-}
+    var r = 2;
+    var bounds = {
+        north: indianapolis.lat + r,
+        south: indianapolis.lat - r,
+        east: indianapolis.lng + r,
+        west: indianapolis.lng - r
+    };
+    // Display the area between the location southWest and northEast.
+    map.fitBounds(bounds);
+
+    //var data = getPoints(bounds);
+    pvArray =  new google.maps.MVCArray(); //data.pv
+    capArray = new google.maps.MVCArray();  //data.capacity
+
+    heatmap_pv = new google.maps.visualization.HeatmapLayer({
+        data: pvArray, 
+        dissipating: true,
+        radius:radius,
+        opacity: 0.7,
+        map: map
+    });
+
+    heatmap_cap = new google.maps.visualization.HeatmapLayer({
+        data: capArray, 
+        dissipating: true,
+        radius:radius,
+        opacity: 0.7,
+    });
 
 
-function toggleHeatmap() {
-    //heatmap.setMap(heatmap.getMap() ? null : map);
-    heatmap = new google.maps.visualization.HeatmapLayer({
-    data: getPoints().pv,
-    dissipating: true,
-    map: map
+    map.addListener('bounds_changed', function() { 
+
+        rescaleHeatmaps(heatmap_filters,capArray,pvArray,updateZoomAndRadius);        
     });
 }
 
-function changeGradient() {
-var gradient = [
+function getMapBounds() {
+    bounds = map.getBounds(); 
+    var new_bounds = {
+        east: bounds.b.f,
+        west: bounds.b.b,
+        north: bounds.f.f,
+        south: bounds.f.b
+    }
+    return new_bounds
+}
+
+function updateZoomAndRadius(){
+    // update heatmap radius
+    current_zoom = map.getZoom();
+    console.log(current_zoom)
+    if (current_zoom != zoom) {
+        radius = current_zoom > zoom? radius+3 : radius-3;
+        console.log(radius)
+        zoom = current_zoom;
+        heatmap_pv.set('radius',radius);
+        heatmap_cap.set('radius',radius);
+    }            
+}
+
+function rescaleHeatmaps(heatmap_filters,capArray,pvArray, cb) {
+    
+    new_bounds = getMapBounds();
+
+    new_data = getPoints(new_bounds,heatmap_filters);
+
+    for (i=0;i<capArray.length;i++) {
+        capArray.pop();
+        pvArray.pop();
+    } 
+    for (i=0;i<new_data.capacity.length;i++) {
+        //console.log(new_data.capacity[i].weight);
+        new_data.capacity[i].weight = new_data.capacity[i].weight/new_data.maxCap;
+        capArray.push(new_data.capacity[i])
+        pvArray.push(new_data.pv[i])
+    }  
+    cb();   
+}
+
+// Define heatmap colormap
+var coldGradient = [
     'rgba(0, 255, 255, 0)',
     'rgba(0, 255, 255, 1)',
     'rgba(0, 191, 255, 1)',
@@ -78,48 +321,131 @@ var gradient = [
     'rgba(191, 0, 31, 1)',
     'rgba(255, 0, 0, 1)'
 ]
-heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+
+function updatemapcenter(location) {
+    jQuery("input[name='radio_mapcenter']:checked").each(function() {
+        map.panTo(new google.maps.LatLng(location));
+    });
 }
 
+function updatemap() {
+    //gather query
+    var years = [];
+    jQuery("input[name='cb_year']:checked").each(function() {
+        years.push(this.value);
+    });
+    var owners = [];
+    jQuery("input[name='cb_ownertype']:checked").each(function() {
+        owners.push(this.value);
+    });
+    // var systypes = [];
+    // jQuery("input[name='cb_systype']:checked").each(function() {
+    //     systypes.push(this.value);
+    // });
 
-// Heatmap data
-function getPoints() {
+    var county = jQuery("input[name='tb_county']").val().toLowerCase();
+    var installer = jQuery("input[name='tb_installer']").val().toLowerCase();
+    var utility = jQuery("input[name='tb_utility']").val().toLowerCase();
 
+    heatmap_filters = {
+        years:years,
+        owners: owners,
+        county: county,
+        installer: installer,
+        utility: utility
+    }
+
+    rescaleHeatmaps(heatmap_filters,capArray,pvArray,updateZoomAndRadius);
+}
+
+function switchGradient(grad) {
+
+    jQuery("input[name='radio_gradient']:checked").each(function() {
+        if (heatmap_cap.getMap()) {
+            heatmap_cap.set('gradient', grad == 'hot' ? null : coldGradient);           
+        }
+        else if (heatmap_pv.getMap()){
+            heatmap_pv.set('gradient', grad == 'hot' ? null : coldGradient)
+        }
+    });
+}
+
+// Define heatmap data
+function switchHeatmap(heatmap2show) {
+    jQuery("input[name='radio_heatmap']:checked").each(function() {
+        if (heatmap2show == 'capacity' && heatmap_pv.getMap()) {
+            var g = heatmap_pv.get('gradient') ? coldGradient :null;
+            heatmap_pv.setMap(null);
+            heatmap_cap.setMap(map);  
+            heatmap_cap.set('gradient',g );          
+        }
+        else if (heatmap2show == 'num_pv' && heatmap_cap.getMap()) {
+            var g = heatmap_cap.get('gradient') ? coldGradient :null;
+            heatmap_cap.setMap(null);
+            heatmap_pv.setMap(map);
+            heatmap_pv.set('gradient',g );
+        }
+    });
+}
+
+// load data
+function getPoints(bounds,filter) {
+    console.log(filter);
+    console.log(bounds)
     var pv = [];
     var capacity = [];
+    var npv = 0;
+    var currentMaxCap = 0;
 
-    console.log(`pv items in data array is ${pv_items.length}`);
-    
+    console.log(`number of items in data array is ${pv_items.length}`);
+
     // find max capacity 
-    var maxCapacity = Math.max.apply(Math,pv_items.map(function(pv_items){return pv_items.capacity_watt;}));
-    //console.log(`max capacity is ${maxCapacity}` )
-    
+    maxCapacity = Math.max.apply(Math,pv_items.map(function(pv_items){return pv_items.capacity_watt;}));
+    console.log(`max capacity is ${maxCapacity}` )
+
     for(var i = 0; i < pv_items.length; i++ ){
-        var lat = parseFloat(pv_items[i].lat);
-        var lon = parseFloat(pv_items[i].lon);
-        var cap = parseFloat(pv_items[i].capacity_watt);  
-        if(!(isNaN(lat) || isNaN(lon))) {
-            pv.push(new google.maps.LatLng(parseFloat(lat),parseFloat(lon)));  
-            capacity.push({location: new google.maps.LatLng(parseFloat(lat),parseFloat(lon)), weight:cap});
-        }        
+        
+        flag_remove = false;
+        item = pv_items[i];
+        
+        if (filter != null) {               
+            if(!~filter.years.indexOf(item.year)) flag_remove = true;
+            if(!~filter.owners.indexOf(item.ownertype)) flag_remove = true;
+            //if(!~systypes.indexOf(item.type)) flag_remove = true;
+            if(!~item.county.toLowerCase().indexOf(filter.county)) flag_remove = true;
+            if(!~item.installer.toLowerCase().indexOf(filter.installer)) flag_remove = true;
+            if ((filter.utility != "") && ((item.utility == null) || (!~item.utility.toLowerCase().indexOf(filter.utility)))) flag_remove = true; 
+        }
+
+        if(!flag_remove) {
+            var lat = parseFloat(item.lat);
+            var lon = parseFloat(item.lon);
+            var cap = parseFloat(item.capacity_watt);  
+            if(!(isNaN(lat) || isNaN(lon))) {
+                if (lat < bounds.north && bounds.south < lat && lon < bounds.east && bounds.west < lon) {
+                    currentMaxCap = currentMaxCap > cap ? currentMaxCap : cap; 
+                    pv.push(new google.maps.LatLng(parseFloat(lat),parseFloat(lon)));       
+                    capacity.push(
+                        {
+                            location: new google.maps.LatLng(parseFloat(lat),parseFloat(lon)), 
+                            weight:cap
+                        }
+                    );
+                    npv++;
+                }
+            } 
+        }               
     }
+    console.log(`points added to the heatmap ${npv}`)    
+    
     return {
         pv: pv,
         capacity:capacity,
-    };
-    console.log(`points added to map ${capacity.length}`)    
+        maxCap: currentMaxCap,
+    };    
 };
  
 
-// for(var i = 1; i <= 5; i++) {
-//     points.push(new google.maps.LatLng(((randn_gauss()*.1) -.05 + 39.17),((randn_gauss()*.1) - .05 - 86.54)))
-// }
-// function randn_gauss() {
-//     var u = 0, v = 0;
-//     while(u === 0) u = Math.random(); 
-//     while(v === 0) v = Math.random();
-//     return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
-// }
 
 </script> 
 

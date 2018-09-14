@@ -16,6 +16,11 @@ myapp.config(['$routeProvider', function($routeProvider) {
         controller: 'HomeController',
         requiresLogin: false
     })
+    .when('/siren', {
+        templateUrl: '/t/pvitems.html',
+        controller: 'HomeController',
+        requiresLogin: false
+    })    
     .when('/signin', {
         template: '<h4>Redirecting to CAS...</h4>',
         controller: 'SigninController'

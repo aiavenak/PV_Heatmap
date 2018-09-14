@@ -16,7 +16,7 @@ html(ng-app="myapp" ng-cloak="" ng-controller="HeadController")
         link(rel="stylesheet" href="public/bower_components/font-awesome/css/font-awesome.min.css")
         link(rel='stylesheet' href='public/bower_components/angular/angular-csp.css')
     body
-        ng-include(src="'t/header.html'")
+        //- ng-include(src="'t/header.html'")
         .container.main
             toaster-container(toaster-options="{'position-class': 'toast-bottom-right'}")
             // <div class="page-header">
@@ -24,7 +24,6 @@ html(ng-app="myapp" ng-cloak="" ng-controller="HeadController")
             // </div>
             ng-view()
         ng-include(src="'t/footer.html'")
-        script(src='public/solarmap_data.js')
         script(src='public/bower_components/jquery/dist/jquery.min.js')
         // bootstrap requires jquery
         script(src='public/bower_components/angular/angular.min.js')
