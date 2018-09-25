@@ -1,0 +1,471 @@
+
+<link rel='stylesheet' id='toc-screen-css'  href='https://www.sirensolar.org/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=1509' type='text/css' media='all' />
+
+<div background-color: #fff;"><br /> 
+    
+    <div id="map_area"><div id="map" style="width: 100%; height: 640px;"></div></div>
+
+       <div class="map-query" style="padding: 10px; background-color: #eee;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60%">
+                        <h3>Center map around: </h3>&nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(bloomington)" value="bloomington"> Bloomington </input> &nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(evansville)" value="evansville"> Evansville </input> 
+    &nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(indianapolis)" value="indianapolis"> Indianapolis </input>  &nbsp; &nbsp;
+                        <input type="radio" name='radio_mapcenter' onclick="updatemapcenter(southbend)" value="southbend"> South Bend </input>
+    &nbsp; &nbsp;
+                    </td>
+                    <td style="width: 40%">
+                        <h3>Filter by county: </h3>&nbsp; &nbsp;
+                        <input type="text" name="tb_county" style="width: 90%;" onkeyup="updatemap()" value=""></input><br/>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%;">
+                <tr><td><br/></td></tr>
+                <tr>
+                    <td style="width: 20%">
+                        <h3>System Type</h3>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="PV"><img src="http://labs.google.com/ridefinder/images/mm_20_blue.png"> PV</input><br>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="Thermal_Water"><img src="http://labs.google.com/ridefinder/images/mm_20_red.png"> Water Heater</input><br>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="Thermal_Air"><img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png"> Air Heater</input><br>
+                        <input type="checkbox" name='cb_systype' checked="checked" onclick="updatemap()" value="PV_Fan"><img src="http://labs.google.com/ridefinder/images/mm_20_green.png"> PV Attic Fan</input><br>
+                    </td>
+                    <td style="width: 20%">
+                        <h3>Owner</h3>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Residential"> Residential </input>&nbsp;<br>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Commercial"> Commercial </input>&nbsp;<br>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Institutional"> Institutional </input>&nbsp;<br>
+                        <input type="checkbox" name='cb_ownertype' checked="checked" onclick="updatemap()" value="Local_Gov"> Local Government </input>&nbsp;<br>
+                    </td>
+                    <td style="width: 30%; padding: 6px">
+                        <h3>Installer</h3>
+                        <input type="text" name="tb_installer" style="width: 90%;" onkeyup="updatemap()" value=""></input><br/>
+                        Type a contractor&#8217;s business name or part of it to filter the map by contractor. <a href="/contractors" target="_new">Click here for list of all contractors</a>
+                    </td>
+                    <td style="width: 30%; padding: 6px">
+                        <h3>Utility</h3>
+                        <input type="text" name="tb_utility" style="width: 90%;" onkeyup="updatemap()" value=""></input><br/>
+                        Type a utility company&#8217;s name or part of it to filter the map by utility.
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%;">
+                <tr><td><h3> </h3></td></tr>
+                <tr>
+                    <td style="width: 100%">
+                        <strong>Installed Year: </strong> &nbsp; &nbsp;
+                        <input type="checkbox" name="cb_year" checked="checked" onclick="updatemap()" value="2008"> 2008 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name="cb_year" checked="checked" onclick="updatemap()" value="2009"> 2009 </input> 
+    &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2010"> 2010 </input>  &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2011"> 2011 </input>
+    &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2012"> 2012 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2013"> 2013 </input>
+    &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2014"> 2014 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2015"> 2015 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2016"> 2016 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2017"> 2017 </input> &nbsp; &nbsp;
+                        <input type="checkbox" name='cb_year' checked="checked" onclick="updatemap()" value="2018"> 2018 </input> &nbsp; &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+            <table style="width: 100%;">                
+                <tr>
+                    <td >
+                        <h3><input type="checkbox" name='show_heatmap' onclick="showHeatmap(heatmap_active)"> Show Heatmap </input></h3>                        
+                    </td>
+                </tr>
+            </table>
+            <div id="heatmapDiv" style="display: none;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 60%; padding: 6px">
+                            <strong>Show heatmap based on: </strong>
+                        </td>
+                        <td style="width: 40%">
+                            <strong> Select color gradient:  </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 60%; padding: 6px">
+                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap('num_pv')" value="num_pv" style="margin-left: 15px;" checked="checked"> Number of PV systems per unit area            
+                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap('capacity')" value="capacity" style="margin-left: 15px;"> System Capacity (kW)              
+                        </td>
+                        <td style="width: 40%">
+                            <input type="radio" name='radio_gradient' onclick="switchGradient('hot')" value="hot" style="margin-left: 15px;" checked="checked"> Hot Colormap 
+                            <input type="radio" name='radio_gradient' onclick="switchGradient('cold')" value="cold" style="margin-left: 15px;"> Cold Colormap 
+                        </td>
+                    </tr>
+                </table>
+                <table style="width: 100%; padding: 6px;">
+                    <tr><td><h3> </h3></td></tr>
+                </table>
+            </div>
+                
+            <table style="width: 100%;">
+                <tr><td><strong>Know a system that is not on the map above?</strong></td></tr>
+                <tr><td>
+                <ul><li><a href="/solar-map/add-pv/" target="_new">Add a new PV system</a>!</li>
+                    <li>To add a new solar water heater, air heater, or solar attic fan, <a href="/contact" target="_new2">please send the relevant information to SIREN</a>. (<em>Online form coming soon</em>.)</li>
+                    <li><a href="/solar-map/data" target="_new_tabular">Click here if you want to view a tabular listing of this data</a>.</li>
+                </ul>
+                </td></tr>
+            </table>
+        </div>
+    </div>
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7MqnmP_XdeCH9-qyYb10OtLg6Laag98o&libraries=visualization,geometry&callback=initHMap">
+</script>
+
+<script type="text/javascript" src="./public/solarmap_data.js"></script>
+
+<script>
+
+var map, heatmap_cap, heatmap_pv;
+var bloomington   = {lat: 39.1622, lng: -86.5252};
+var evansville    = {lat: 37.9913, lng: -87.5386};
+var indianapolis  = {lat: 39.7839, lng: -86.1575};
+var southbend     = {lat: 41.6760, lng: -86.2512};
+var zoom = 7;
+var radius = 12;
+var maxCapacity = 0;
+var heatmap_filters = null;
+
+function initHMap() {
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: zoom,
+        center: bloomington,  
+        mapTypeId: 'hybrid',//'satellite',
+        zoomControl: true,
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+        },
+        scaleControl: true,
+    });
+
+    var r = 2;
+    var bounds = {
+        north: indianapolis.lat + r,
+        south: indianapolis.lat - r,
+        east: indianapolis.lng + r,
+        west: indianapolis.lng - r
+    };
+    // Display the area between the location southWest and northEast.
+    map.fitBounds(bounds);
+
+    //var data = getPoints(bounds);
+    pvArray =  new google.maps.MVCArray(); //data.pv
+    capArray = new google.maps.MVCArray();  //data.capacity
+
+    heatmap_pv = new google.maps.visualization.HeatmapLayer({
+        data: pvArray, 
+        dissipating: true,
+        radius:radius,
+        opacity: 0.7,
+        //map: map
+    });
+
+    heatmap_cap = new google.maps.visualization.HeatmapLayer({
+        data: capArray, 
+        dissipating: true,
+        radius:radius,
+        opacity: 0.7,
+    });
+
+    loadMarkers();
+    showMarkers();
+
+    map.addListener('bounds_changed', function() { 
+
+        rescaleHeatmaps(heatmap_filters,capArray,pvArray,updateZoomAndRadius);        
+    });
+}
+
+function getMapBounds() {
+    bounds = map.getBounds(); 
+    var new_bounds = {
+        east: bounds.b.f,
+        west: bounds.b.b,
+        north: bounds.f.f,
+        south: bounds.f.b
+    }
+    return new_bounds
+}
+
+function updateZoomAndRadius(){
+    // update heatmap radius
+    current_zoom = map.getZoom();
+    console.log(current_zoom)
+    if (current_zoom != zoom) {
+        radius = current_zoom > zoom? radius+3 : radius-3;
+        console.log(radius)
+        zoom = current_zoom;
+        heatmap_pv.set('radius',radius);
+        heatmap_cap.set('radius',radius);
+    }            
+}
+
+function rescaleHeatmaps(heatmap_filters,capArray,pvArray, cb) {
+    
+    new_bounds = getMapBounds();
+
+    new_data = getPoints(new_bounds,heatmap_filters);
+
+    for (i=0;i<capArray.length;i++) {
+        capArray.pop();
+        pvArray.pop();
+    } 
+    for (i=0;i<new_data.capacity.length;i++) {
+        //console.log(new_data.capacity[i].weight);
+        new_data.capacity[i].weight = new_data.capacity[i].weight/new_data.maxCap;
+        capArray.push(new_data.capacity[i])
+        pvArray.push(new_data.pv[i])
+    }  
+    cb();   
+}
+
+// Define heatmap colormap
+var coldGradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+]
+
+function updatemapcenter(location) {
+    jQuery("input[name='radio_mapcenter']:checked").each(function() {
+        map.panTo(new google.maps.LatLng(location));
+    });
+}
+
+function updatemap() {
+    //gather query
+    var years = [];
+    jQuery("input[name='cb_year']:checked").each(function() {
+        years.push(this.value);
+    });
+    var owners = [];
+    jQuery("input[name='cb_ownertype']:checked").each(function() {
+        owners.push(this.value);
+    });
+    var systypes = [];
+    jQuery("input[name='cb_systype']:checked").each(function() {
+        systypes.push(this.value);
+    });
+    pv_items.forEach(function(item) { item.type = "PV"; });
+    // ah_items.forEach(function(item) { item.type = "Thermal_Air"; });
+    // wh_items.forEach(function(item) { item.type = "Thermal_Water"; });
+    // pv_af_items.forEach(function(item) { item.type = "PV_Fan"; });
+
+    var county = jQuery("input[name='tb_county']").val().toLowerCase();
+    var installer = jQuery("input[name='tb_installer']").val().toLowerCase();
+    var utility = jQuery("input[name='tb_utility']").val().toLowerCase();
+
+    [pv_items, pv_af_items, ah_items, wh_items].forEach(function(items) {
+        items.forEach(function(item) {
+            var pmap = item.marker.getMap();
+            var nmap = map;
+            if(!~years.indexOf(item.year)) nmap = null;
+            if(!~owners.indexOf(item.ownertype)) nmap = null;
+            if(!~systypes.indexOf(item.type)) nmap = null;
+            if(!~item.county.toLowerCase().indexOf(county)) nmap = null;
+            if(!~item.installer.toLowerCase().indexOf(installer)) nmap = null;
+            if ((utility != "") && ((item.utility == null) || (!~item.utility.toLowerCase().indexOf(utility)))) nmap = null; 
+            if(pmap != nmap) item.marker.setMap(nmap);            
+          });
+      });
+
+    if (heatmap_active) {
+        heatmap_filters = {
+            years:years,
+            owners: owners,
+            county: county,
+            installer: installer,
+            utility: utility
+        }
+
+        rescaleHeatmaps(heatmap_filters,capArray,pvArray,updateZoomAndRadius);
+    }
+
+}
+
+function switchGradient(grad) {
+
+    jQuery("input[name='radio_gradient']:checked").each(function() {
+        if (heatmap_cap.getMap()) {
+            heatmap_cap.set('gradient', grad == 'hot' ? null : coldGradient);           
+        }
+        else if (heatmap_pv.getMap()){
+            heatmap_pv.set('gradient', grad == 'hot' ? null : coldGradient)
+        }
+    });
+}
+
+// Define heatmap data
+function switchHeatmap(heatmap2show) {
+    jQuery("input[name='radio_heatmap']:checked").each(function() {
+        if (heatmap2show == 'capacity' && heatmap_pv.getMap()) {
+            var g = heatmap_pv.get('gradient') ? coldGradient :null;
+            heatmap_pv.setMap(null);
+            heatmap_cap.setMap(map);  
+            heatmap_cap.set('gradient',g );          
+        }
+        else if (heatmap2show == 'num_pv' && heatmap_cap.getMap()) {
+            var g = heatmap_cap.get('gradient') ? coldGradient :null;
+            heatmap_cap.setMap(null);
+            heatmap_pv.setMap(map);
+            heatmap_pv.set('gradient',g );
+        }
+    });
+}
+
+// load data
+function getPoints(bounds,filter) {
+    console.log(filter);
+    console.log(bounds)
+    var pv = [];
+    var capacity = [];
+    var npv = 0;
+    var currentMaxCap = 0;
+
+    console.log(`number of items in data array is ${pv_items.length}`);
+
+    // find max capacity 
+    maxCapacity = Math.max.apply(Math,pv_items.map(function(pv_items){return pv_items.capacity_watt;}));
+    console.log(`max capacity is ${maxCapacity}` )
+
+    for(var i = 0; i < pv_items.length; i++ ){
+        
+        flag_remove = false;
+        item = pv_items[i];
+        
+        if (filter != null) {               
+            if(!~filter.years.indexOf(item.year)) flag_remove = true;
+            if(!~filter.owners.indexOf(item.ownertype)) flag_remove = true;
+            //if(!~systypes.indexOf(item.type)) flag_remove = true;
+            if(!~item.county.toLowerCase().indexOf(filter.county)) flag_remove = true;
+            if(!~item.installer.toLowerCase().indexOf(filter.installer)) flag_remove = true;
+            if ((filter.utility != "") && ((item.utility == null) || (!~item.utility.toLowerCase().indexOf(filter.utility)))) flag_remove = true; 
+        }
+
+        if(!flag_remove) {
+            var lat = parseFloat(item.lat);
+            var lon = parseFloat(item.lon);
+            var cap = parseFloat(item.capacity_watt);  
+            if(!(isNaN(lat) || isNaN(lon))) {
+                if (lat < bounds.north && bounds.south < lat && lon < bounds.east && bounds.west < lon) {
+                    currentMaxCap = currentMaxCap > cap ? currentMaxCap : cap; 
+                    pv.push(new google.maps.LatLng(parseFloat(lat),parseFloat(lon)));       
+                    capacity.push(
+                        {
+                            location: new google.maps.LatLng(parseFloat(lat),parseFloat(lon)), 
+                            weight:cap
+                        }
+                    );
+                    npv++;
+                }
+            } 
+        }               
+    }
+    console.log(`points added to the heatmap ${npv}`)    
+    
+    return {
+        pv: pv,
+        capacity:capacity,
+        maxCap: currentMaxCap,
+    };    
+};
+ 
+
+function loadMarkers() {
+    pv_items.forEach(function(pv_item) {
+      pv_item.marker = new google.maps.Marker({
+        position: {
+          lat: parseFloat(pv_item.lat),
+          lng: parseFloat(pv_item.lon)
+        },
+        content: pv_item.utility, 
+        //map: map,
+        //icon: pv_icon
+        });  // Use map : null to not show by default, in conjunction with checked="unchecked" or not specifying attribute above 
+        pv_item.marker.addListener('click', function() {
+          if (infowindow) {
+            infowindow.close();
+          }
+          var contentString = '<div id="content">'+
+          '<div id="siteNotice">'+ '</div>'+
+          '<h2 id="firstHeading" class="firstHeading">PV System at ' + pv_item.address; 
+          contentString += '</h2>' + '<div id="bodyContent">';
+          contentString += (pv_item.capacity_watt != '')?'System Size: ' + pv_item.capacity_watt + ' Watt DC ':'';
+          contentString += (pv_item.connection != '')?' (' + pv_item.connection + ')<br />':'<br />';
+          contentString += (pv_item.utility != '')?'Utility: ' + pv_item.utility + '<br />':'';
+          contentString += (pv_item.installer != '')?'Installer: ' + pv_item.installer + '<br />':'';
+          contentString += (pv_item.county != '')?'County: ' + pv_item.county + '<br />':'';
+          contentString += (pv_item.year != '')?'Installed in: ' + pv_item.year + '<br />':'';
+          contentString += (pv_item.comment != '')?'Additional Comments:' + pv_item.comment + '<br />':'';
+          contentString += '</div>'+'</div>';
+
+          infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 300
+          });
+          infowindow.open(map, pv_item.marker); 
+        });
+    });
+}
+
+
+function showHeatmap() {
+    var x = document.getElementById("heatmapDiv");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        hideMarkers()
+        
+    } else {
+        x.style.display = "none";
+        showMarkers()
+    }
+}
+
+function showMarkers() {
+    pv_items.forEach(function(pv_item) {
+        pv_item.marker.setMap(map);
+    })
+    heatmap_active = false;
+    heatmap_pv.setMap(null);
+    heatmap_cap.setMap(null);
+}
+
+function hideMarkers() {
+    pv_items.forEach(function(pv_item) {
+        pv_item.marker.setMap(null);
+    });
+    console.log(heatmap_pv)
+    heatmap_pv.setMap(map);
+    heatmap_active = true;
+}
+
+
+</script> 
+
+
