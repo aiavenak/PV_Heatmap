@@ -29,6 +29,7 @@
       padding-bottom: 10px;
       border-bottom: 1px solid #ddd;
     }
+
 </style>
 
 <!DOCTYPE html>
@@ -74,11 +75,12 @@
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://www.sirensolar.org/wp-content/uploads/2015/08/SIREN-Logo-Small-150x1502.ico"><meta name="generator" content="Powered by Visual Composer - drag and drop page builder for WordPress."/>
 </head>
   
+
 <link rel='stylesheet' id='toc-screen-css'  href='https://www.sirensolar.org/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=1509' type='text/css' media='all' />
 
-<div background-color: #fff;"><br /> 
-    
-    <div id="map_area"><div id="map" style="width: 100%; height: 640px;"></div></div>
+<div background-color: #fff;"><br />  
+    <div id="map_area"><div id="map" style="width: 100%; height: 640px;"></div>
+</div>
 
        <div class="map-query" style="padding: 10px; background-color: #eee;">
             <table style="width: 100%;">
@@ -152,33 +154,37 @@
             <br><br>
             <table style="width: 100%;">                
                 <tr>
-                    <td ><h3>Show Heatmap</h3></td>
-                </tr>
-            </table>
-            <table style="width: 100%;">
-                <tr>
-                    <td style="width: 60%; padding: 6px">
-                        <strong>Show heatmap based on: </strong>
-                    </td>
-                    <td style="width: 40%">
-                        <strong> Select color gradient:  </strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 60%; padding: 6px">
-                        <input type="radio" name='radio_heatmap' onclick="switchHeatmap('num_pv')" value="num_pv" style="margin-left: 15px;" checked="checked"> Number of PV systems per unit area            
-                        <input type="radio" name='radio_heatmap' onclick="switchHeatmap('capacity')" value="capacity" style="margin-left: 15px;"> System Capacity (kW)              
-                    </td>
-                    <td style="width: 40%">
-                        <input type="radio" name='radio_gradient' onclick="switchGradient('hot')" value="hot" style="margin-left: 15px;" checked="checked"> Hot Colormap 
-                        <input type="radio" name='radio_gradient' onclick="switchGradient('cold')" value="cold" style="margin-left: 15px;"> Cold Colormap 
+                    <td >
+                        <h3><input type="checkbox" name='show_heatmap' onclick="showHeatmap()"> Show Heatmap </input></h3>                        
                     </td>
                 </tr>
             </table>
+            <div id="heatmapDiv" style="display: none;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 60%; padding: 6px">
+                            <strong>Show heatmap based on: </strong>
+                        </td>
+                        <td style="width: 40%">
+                            <strong> Select color gradient:  </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 60%; padding: 6px">
+                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap('num_pv')" value="num_pv" style="margin-left: 15px;" checked="checked"> Number of PV systems per unit area            
+                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap('capacity')" value="capacity" style="margin-left: 15px;"> System Capacity (kW)              
+                        </td>
+                        <td style="width: 40%">
+                            <input type="radio" name='radio_gradient' onclick="switchGradient('hot')" value="hot" style="margin-left: 15px;" checked="checked"> Hot Colormap 
+                            <input type="radio" name='radio_gradient' onclick="switchGradient('cold')" value="cold" style="margin-left: 15px;"> Cold Colormap 
+                        </td>
+                    </tr>
+                </table>
+                <table style="width: 100%; padding: 6px;">
+                    <tr><td><h3> </h3></td></tr>
+                </table>
+            </div>
                 
-            <table style="width: 100%; padding: 6px;">
-                <tr><td><h3> </h3></td></tr>
-            </table>
             <table style="width: 100%;">
                 <tr><td><strong>Know a system that is not on the map above?</strong></td></tr>
                 <tr><td>
@@ -192,9 +198,8 @@
     </div>
 
 
-
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7MqnmP_XdeCH9-qyYb10OtLg6Laag98o&libraries=visualization,geometry&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7MqnmP_XdeCH9-qyYb10OtLg6Laag98o&libraries=visualization,geometry&callback=initHMap">
 </script>
 
 <script type="text/javascript" src="./public/solarmap_data.js"></script>
@@ -208,10 +213,13 @@ var indianapolis  = {lat: 39.7839, lng: -86.1575};
 var southbend     = {lat: 41.6760, lng: -86.2512};
 var zoom = 7;
 var radius = 12;
-var maxCapacity = 0;
+//var maxCapacity = 0;
 var heatmap_filters = null;
 
-function initMap() {
+var pv_icon = '/../public/mm_20_blue.png';
+
+
+function initHMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: zoom,
@@ -244,7 +252,7 @@ function initMap() {
         dissipating: true,
         radius:radius,
         opacity: 0.7,
-        map: map
+        //map: map
     });
 
     heatmap_cap = new google.maps.visualization.HeatmapLayer({
@@ -254,6 +262,8 @@ function initMap() {
         opacity: 0.7,
     });
 
+    loadMarkers();
+    showMarkers();
 
     map.addListener('bounds_changed', function() { 
 
@@ -275,7 +285,7 @@ function getMapBounds() {
 function updateZoomAndRadius(){
     // update heatmap radius
     current_zoom = map.getZoom();
-    console.log(current_zoom)
+    //console.log(current_zoom)
     if (current_zoom != zoom) {
         radius = current_zoom > zoom? radius+3 : radius-3;
         console.log(radius)
@@ -338,24 +348,51 @@ function updatemap() {
     jQuery("input[name='cb_ownertype']:checked").each(function() {
         owners.push(this.value);
     });
-    // var systypes = [];
-    // jQuery("input[name='cb_systype']:checked").each(function() {
-    //     systypes.push(this.value);
-    // });
+    var systypes = [];
+    jQuery("input[name='cb_systype']:checked").each(function() {
+        systypes.push(this.value);
+    });
+    pv_items.forEach(function(item) { item.type = "PV"; });
+    // ah_items.forEach(function(item) { item.type = "Thermal_Air"; });
+    // wh_items.forEach(function(item) { item.type = "Thermal_Water"; });
+    // pv_af_items.forEach(function(item) { item.type = "PV_Fan"; });
 
     var county = jQuery("input[name='tb_county']").val().toLowerCase();
     var installer = jQuery("input[name='tb_installer']").val().toLowerCase();
     var utility = jQuery("input[name='tb_utility']").val().toLowerCase();
+   
+    console.log(`heatmap_active: ${heatmap_active}`)
 
-    heatmap_filters = {
-        years:years,
-        owners: owners,
-        county: county,
-        installer: installer,
-        utility: utility
+    if (!heatmap_active) {
+        //[pv_items, pv_af_items, ah_items, wh_items].forEach(function(items) {
+        items = pv_items;    
+        items.forEach(function(item) {
+            var pmap = item.marker.getMap();
+            var nmap = map;
+            if(!~years.indexOf(item.year)) nmap = null;
+            if(!~owners.indexOf(item.ownertype)) nmap = null;
+            if(!~systypes.indexOf(item.type)) nmap = null;
+            if(!~item.county.toLowerCase().indexOf(county)) nmap = null;
+            if(!~item.installer.toLowerCase().indexOf(installer)) nmap = null;
+            if ((utility != "") && ((item.utility == null) || (!~item.utility.toLowerCase().indexOf(utility)))) nmap = null; 
+            if(pmap != nmap) item.marker.setMap(nmap);            
+          });
+      //});
     }
 
-    rescaleHeatmaps(heatmap_filters,capArray,pvArray,updateZoomAndRadius);
+
+    if (heatmap_active) {
+        heatmap_filters = {
+            years:years,
+            owners: owners,
+            county: county,
+            installer: installer,
+            utility: utility
+        }
+
+        rescaleHeatmaps(heatmap_filters,capArray,pvArray,updateZoomAndRadius);
+    }
+
 }
 
 function switchGradient(grad) {
@@ -390,8 +427,7 @@ function switchHeatmap(heatmap2show) {
 
 // load data
 function getPoints(bounds,filter) {
-    console.log(filter);
-    console.log(bounds)
+    
     var pv = [];
     var capacity = [];
     var npv = 0;
@@ -400,8 +436,8 @@ function getPoints(bounds,filter) {
     console.log(`number of items in data array is ${pv_items.length}`);
 
     // find max capacity 
-    maxCapacity = Math.max.apply(Math,pv_items.map(function(pv_items){return pv_items.capacity_watt;}));
-    console.log(`max capacity is ${maxCapacity}` )
+    //maxCapacity = Math.max.apply(Math,pv_items.map(function(pv_items){return pv_items.capacity_watt;}));
+    //console.log(`max capacity is ${maxCapacity}` )
 
     for(var i = 0; i < pv_items.length; i++ ){
         
@@ -445,6 +481,75 @@ function getPoints(bounds,filter) {
     };    
 };
  
+
+function loadMarkers() {
+    pv_items.forEach(function(pv_item) {
+      pv_item.marker = new google.maps.Marker({
+        position: {
+          lat: parseFloat(pv_item.lat),
+          lng: parseFloat(pv_item.lon)
+        },
+        content: pv_item.utility, 
+        //map: map,
+        icon: pv_icon
+        });  // Use map : null to not show by default, in conjunction with checked="unchecked" or not specifying attribute above 
+        pv_item.marker.addListener('click', function() {
+          if (infowindow) {
+            infowindow.close();
+          }
+          var contentString = '<div id="content">'+
+          '<div id="siteNotice">'+ '</div>'+
+          '<h2 id="firstHeading" class="firstHeading">PV System at ' + pv_item.address; 
+          contentString += '</h2>' + '<div id="bodyContent">';
+          contentString += (pv_item.capacity_watt != '')?'System Size: ' + pv_item.capacity_watt + ' Watt DC ':'';
+          contentString += (pv_item.connection != '')?' (' + pv_item.connection + ')<br />':'<br />';
+          contentString += (pv_item.utility != '')?'Utility: ' + pv_item.utility + '<br />':'';
+          contentString += (pv_item.installer != '')?'Installer: ' + pv_item.installer + '<br />':'';
+          contentString += (pv_item.county != '')?'County: ' + pv_item.county + '<br />':'';
+          contentString += (pv_item.year != '')?'Installed in: ' + pv_item.year + '<br />':'';
+          contentString += (pv_item.comment != '')?'Additional Comments:' + pv_item.comment + '<br />':'';
+          contentString += '</div>'+'</div>';
+
+          infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 300
+          });
+          infowindow.open(map, pv_item.marker); 
+        });
+    });
+}
+
+
+function showHeatmap() {
+    var x = document.getElementById("heatmapDiv");
+    if (x.style.display == "none") {
+        x.style.display = "block";
+        hideMarkers()
+        
+    } else {
+        x.style.display = "none";
+        showMarkers()
+    }
+}
+
+function showMarkers() {
+    pv_items.forEach(function(pv_item) {
+        pv_item.marker.setMap(map);
+    })
+    heatmap_active = false;
+    if (heatmap_pv.getMap()) heatmap_pv.setMap(null);
+    if (heatmap_cap.getMap()) heatmap_cap.setMap(null);
+}
+
+function hideMarkers() {
+    pv_items.forEach(function(pv_item) {
+        pv_item.marker.setMap(null);
+    });
+    //console.log(heatmap_pv)
+    heatmap_pv.setMap(map);
+    heatmap_active = true;
+    updatemap();
+}
 
 
 </script> 

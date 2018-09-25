@@ -21,6 +21,11 @@ myapp.config(['$routeProvider', function($routeProvider) {
         controller: 'HomeController',
         requiresLogin: false
     })    
+    .when('/home2', {
+        templateUrl: '/t/home2.html',
+        controller: 'HomeController',
+        requiresLogin: false
+    })     
     .when('/signin', {
         template: '<h4>Redirecting to CAS...</h4>',
         controller: 'SigninController'
