@@ -170,13 +170,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 60%; padding: 6px">
-                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap('num_pv')" value="num_pv" style="margin-left: 15px;" checked="checked"> Number of PV systems per unit area            
-                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap('capacity')" value="capacity" style="margin-left: 15px;"> System Capacity (kW)              
+                        <td style="width: 60%; padding: 6px">              
+                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap()" value="num_pv" style="margin-left: 15px;" checked="checked"> Number of PV systems per unit area            
+                            <input type="radio" name='radio_heatmap' onclick="switchHeatmap()" value="capacity" style="margin-left: 15px;"> System Capacity (kW)
                         </td>
                         <td style="width: 40%">
-                            <input type="radio" name='radio_gradient' onclick="switchGradient('hot')" value="hot" style="margin-left: 15px;" checked="checked"> Hot Colormap 
-                            <input type="radio" name='radio_gradient' onclick="switchGradient('cold')" value="cold" style="margin-left: 15px;"> Cold Colormap 
+                            <input type="radio" name='radio_gradient' onclick="switchGradient()" value="hot" style="margin-left: 15px;" checked="checked"> Hot Colormap 
+                            <input type="radio" name='radio_gradient' onclick="switchGradient()" value="cold" style="margin-left: 15px;"> Cold Colormap 
                         </td>
                     </tr>
                 </table>
@@ -314,6 +314,8 @@ function rescaleHeatmaps(heatmap_filters,capArray,pvArray, cb) {
     cb();   
 }
 
+
+
 // Define heatmap colormap
 var coldGradient = [
     'rgba(0, 255, 255, 0)',
@@ -395,34 +397,34 @@ function updatemap() {
 
 }
 
-function switchGradient(grad) {
+function switchGradient() {
 
-    jQuery("input[name='radio_gradient']:checked").each(function() {
-        if (heatmap_cap.getMap()) {
-            heatmap_cap.set('gradient', grad == 'hot' ? null : coldGradient);           
-        }
-        else if (heatmap_pv.getMap()){
-            heatmap_pv.set('gradient', grad == 'hot' ? null : coldGradient)
-        }
-    });
+    var grad = jQuery("input[name='radio_gradient']:checked").val();
+    console.log(grad)
+    if (heatmap_cap.getMap()) {
+        heatmap_cap.set('gradient', grad == "hot" ? null : coldGradient);           
+    }
+    else if (heatmap_pv.getMap()){
+        heatmap_pv.set('gradient', grad == "hot" ? null : coldGradient)
+    }
 }
 
 // Define heatmap data
-function switchHeatmap(heatmap2show) {
-    jQuery("input[name='radio_heatmap']:checked").each(function() {
-        if (heatmap2show == 'capacity' && heatmap_pv.getMap()) {
-            var g = heatmap_pv.get('gradient') ? coldGradient :null;
-            heatmap_pv.setMap(null);
-            heatmap_cap.setMap(map);  
-            heatmap_cap.set('gradient',g );          
-        }
-        else if (heatmap2show == 'num_pv' && heatmap_cap.getMap()) {
-            var g = heatmap_cap.get('gradient') ? coldGradient :null;
-            heatmap_cap.setMap(null);
-            heatmap_pv.setMap(map);
-            heatmap_pv.set('gradient',g );
-        }
-    });
+function switchHeatmap() {
+    var currentHeatmap = jQuery("input[name='radio_heatmap']:checked").val(); 
+    console.log(currentHeatmap)
+    if (currentHeatmap == "capacity") {
+        var g = heatmap_pv.get('gradient') ? coldGradient :null;
+        heatmap_pv.setMap(null);
+        heatmap_cap.setMap(map);  
+        heatmap_cap.set('gradient',g );          
+    }
+    else if (currentHeatmap == "num_pv") { 
+        var g = heatmap_cap.get('gradient') ? coldGradient :null;
+        heatmap_cap.setMap(null);
+        heatmap_pv.setMap(map);
+        heatmap_pv.set('gradient',g );
+    }
 }
 
 // load data
@@ -530,6 +532,7 @@ function showHeatmap() {
         x.style.display = "none";
         showMarkers()
     }
+    updatemap();
 }
 
 function showMarkers() {
@@ -545,10 +548,9 @@ function hideMarkers() {
     pv_items.forEach(function(pv_item) {
         pv_item.marker.setMap(null);
     });
-    //console.log(heatmap_pv)
-    heatmap_pv.setMap(map);
+    switchHeatmap();
+    switchGradient();
     heatmap_active = true;
-    updatemap();
 }
 
 
